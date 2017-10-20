@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular.module('app')
-		.controller('RecipesController', function (dataService, $scope, $location, $route) {
+		.controller('RecipesController', function (dataService, $scope, $location, $route, $window) {
 
 			dataService.getAllRecipes(function(response){
 				$scope.recipes = response.data;
@@ -14,13 +14,22 @@
 
 			//func fires when category is changed and template displays the returned categories
 			$scope.changeCategory = function(category){
-				dataService.getRecipes(category, function(response){
-					if(response.data.length == 0){
-						$scope.recipes = null;
-					}else {
+				//when 'All Categories' is selected
+				if(category == undefined){
+					//all recipes will show
+					dataService.getAllRecipes(function(response){
 						$scope.recipes = response.data;
-					}
-				});
+					});
+				//else specfic recipes will show, based of the category
+				}else{
+					dataService.getRecipes(category, function(response){
+						if(response.data.length == 0){
+							$scope.recipes = null;
+						}else {
+							$scope.recipes = response.data;
+						}
+					});
+				}
 			}
 
 			$scope.redirect = function(path) {
@@ -28,14 +37,22 @@
 			}
 
 			$scope.delete = function(category, id){
-				dataService.deleteRecipe(id);
-				dataService.getRecipes(category, function(response){
-					if(response.data.length == 0){
-						$scope.recipes = null;
+				if(confirm('Are you sure you want to delete this recipe?')){
+					dataService.deleteRecipe(id);
+					if(category == undefined){
+						dataService.getAllRecipes(function(response){
+							$scope.recipes = response.data;
+						});
 					}else {
-						$scope.recipes = response.data;
+						dataService.getRecipes(category, function(response){
+							if(response.data.length == 0){
+								$scope.recipes = null;
+							}else {
+								$scope.recipes = response.data;
+							}
+						});
 					}
-				});
+				}
 			}
 		});
 

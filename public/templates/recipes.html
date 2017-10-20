@@ -6,8 +6,6 @@
   </div>
   <div class="grid-70">
     <div class="flush-right">
-      <!-- TODO Add a directive to this button in order to handle
-        when the user clicks to add a new recipe. -->
       <button ng-click="redirect('/add')">+ Add Recipe</button>
     </div>
   </div>
@@ -33,7 +31,7 @@
       <div class="flush-right">
         <p>
           <a href="/#!/edit/{{recipe._id}}"> <img src="images/edit.svg" height="12px"> Edit </a>
-          <a class="no-action-link" ng-click="delete(recipe.category, recipe._id)"> <img src="images/delete.svg" height="12px"> Delete </a>
+          <a class="no-action-link" ng-click="delete(selected.name, recipe._id)"> <img src="images/delete.svg" height="12px"> Delete </a>
         </p>
       </div>
     </div>
