@@ -42,6 +42,7 @@
 					if(category == undefined){
 						dataService.getAllRecipes(function(response){
 							$scope.recipes = response.data;
+
 						});
 					}else {
 						dataService.getRecipes(category, function(response){
@@ -50,8 +51,10 @@
 							}else {
 								$scope.recipes = response.data;
 							}
+
 						});
 					}
+					$route.reload();
 				}
 			}
 		});
